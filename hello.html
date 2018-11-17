@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<title>HTML Canvas Practice</title>
+</head>
+<script>
+function draw_magic()
+{
+	var canvas = document.getElementById('thecanvas');
+	var ctx = canvas.getContext('2d');
+	var x = 20, y = 30, w = 100, h = 120, shift = 40;
+	var d;
+  var r, g, b;
+	for (d = 0; d < shift; d++ )
+  {
+		r = 255 - d;
+		g = 255 - 4 * d;
+		b = 255 - 2 * d;
+		ctx.fillStyle = 'rgb(' + [r, g, b].join(',') + ')';
+		ctx.fillRect(x + d, y + d, w, h);
+	}
+}
+</script>
+<body onload="draw_magic()">
+	<canvas width=640 height=480 id="thecanvas">
+	</canvas>
+</body>
