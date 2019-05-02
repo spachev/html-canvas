@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<title>Multiplication Table</title>
+</head>
+<script>
+
+function draw_grid(ctx, n, m, start_x, start_y, w, h)
+{
+	var end_x = start_x + (n + 1) * w;
+	var end_y = start_y + (m + 1) * h;
+
+	ctx.beginPath();
+
+	for (var x = start_x; x <= end_x; x += w)
+	{
+		ctx.moveTo(x, start_y);
+		ctx.lineTo(x, end_y);
+	}
+
+	for (var y = start_y; y <= end_y; y += h)
+	{
+		ctx.moveTo(start_x, y);
+		ctx.lineTo(end_x, y);
+	}
+
+	ctx.stroke();
+}
+
+function draw_table()
+{
+	var canvas = document.getElementById('thecanvas');
+	var ctx = canvas.getContext('2d');
+	var x, y;
+	var start_n = 1, end_n = 12;
+	var start_m = 1, end_m = 12;
+	var pad_w = 10, pad_h = 10, margin_h = 40, margin_w = 12;
+	var w = canvas.width / (end_n - start_n) - pad_h;
+	var h = canvas.height / (end_m - start_m) - pad_w;
+	ctx.font = "30px Ariel";
+
+	draw_grid(ctx, end_n - start_n, end_m - start_m, 0, 0, w, h);
+
+	for (n = start_n; n <= end_n; n++)
+  {
+		for (m = start_m; m <= end_m; m++)
+		{
+			var res = n * m;
+			x = (m - start_m) * h + margin_w;
+			y = (n - start_n) * w + margin_h;
+			ctx.fillStyle = n % 2 ? "red" : "blue";
+			ctx.fillText(res, x, y);
+		}
+	}
+}
+</script>
+<body onload="draw_table()">
+	<canvas width=768 height=768 id="thecanvas">
+	</canvas>
+</body>
