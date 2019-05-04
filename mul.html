@@ -5,26 +5,45 @@
 </head>
 <script>
 
+var SQ_COLOR = "rgb(128,255,128)";
+
 function draw_grid(ctx, n, m, start_x, start_y, w, h)
 {
 	var end_x = start_x + (n + 1) * w;
 	var end_y = start_y + (m + 1) * h;
+	var x,y;
 
 	ctx.beginPath();
 
-	for (var x = start_x; x <= end_x; x += w)
+	for (x = start_x; x <= end_x; x += w)
 	{
 		ctx.moveTo(x, start_y);
 		ctx.lineTo(x, end_y);
 	}
 
-	for (var y = start_y; y <= end_y; y += h)
+	for (y = start_y; y <= end_y; y += h)
 	{
 		ctx.moveTo(start_x, y);
 		ctx.lineTo(end_x, y);
 	}
 
 	ctx.stroke();
+
+	var max_sq = Math.max(n, m);
+	var i;
+
+	for (i = 0; i <= max_sq; i++)
+	{
+		x = start_x + i * w;
+		y = start_y + i * h;
+		draw_bg_rect(ctx, x, y, w, h, SQ_COLOR);
+	}
+}
+
+function draw_bg_rect(ctx, x, y, w, h, bgcolor)
+{
+	ctx.fillStyle = bgcolor;
+	ctx.fillRect(x, y, w, h);
 }
 
 function draw_table()
@@ -35,8 +54,8 @@ function draw_table()
 	var start_n = 1, end_n = 12;
 	var start_m = 1, end_m = 12;
 	var pad_w = 10, pad_h = 10, margin_h = 40, margin_w = 12;
-	var w = canvas.width / (end_n - start_n) - pad_h;
-	var h = canvas.height / (end_m - start_m) - pad_w;
+	var w = Math.round(canvas.width / (end_n - start_n) - pad_h);
+	var h = Math.round(canvas.height / (end_m - start_m) - pad_w);
 	ctx.font = "30px Ariel";
 
 	draw_grid(ctx, end_n - start_n, end_m - start_m, 0, 0, w, h);
@@ -46,8 +65,8 @@ function draw_table()
 		for (m = start_m; m <= end_m; m++)
 		{
 			var res = n * m;
-			x = (m - start_m) * h + margin_w;
-			y = (n - start_n) * w + margin_h;
+			x = (m - start_m) * w + margin_w;
+			y = (n - start_n) * h + margin_h;
 			ctx.fillStyle = n % 2 ? "red" : "blue";
 			ctx.fillText(res, x, y);
 		}
@@ -55,6 +74,6 @@ function draw_table()
 }
 </script>
 <body onload="draw_table()">
-	<canvas width=768 height=768 id="thecanvas">
+	<canvas width=1024 height=768 id="thecanvas">
 	</canvas>
 </body>
